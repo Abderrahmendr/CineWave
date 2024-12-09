@@ -14,14 +14,23 @@ class MoviesController extends Controller
     public function index()
     {
 
+        
+
+        $nowPlayingMovies = Http::withToken(config('services.tmdb.token'))
+        ->get('https://api.themoviedb.org/3/movie/now_playing?api_key=3e0a917baa2ad47e37244f4af42b4eb0')
+        ->json()['results'];
+
+        $topRated = Http::withToken(config('services.tmdb.token'))
+        ->get('https://api.themoviedb.org/3/movie/top_rated?api_key=3e0a917baa2ad47e37244f4af42b4eb0' )
+        ->json()['results'];
+
         $popularMovies = Http::withToken(config('services.tmdb.token'))
         ->get('https://api.themoviedb.org/3/movie/popular?api_key=3e0a917baa2ad47e37244f4af42b4eb0' )
         ->json()['results'];
 
-        $popularShows = Http::withToken(config('services.tmdb.token'))
-        ->get('https://api.themoviedb.org/3/tv/popular?api_key=3e0a917baa2ad47e37244f4af42b4eb0' )
+        $upcoming = Http::withToken(config('services.tmdb.token'))
+        ->get('https://api.themoviedb.org/3/movie/upcoming?api_key=3e0a917baa2ad47e37244f4af42b4eb0' )
         ->json()['results'];
-
 
         $genres = Http::withToken(config('services.tmdb.token'))
         ->get('https://api.themoviedb.org/3/genre/movie/list?api_key=3e0a917baa2ad47e37244f4af42b4eb0' )
@@ -29,10 +38,12 @@ class MoviesController extends Controller
 
 
 
-        return view('index',[
+        return view('movie.index',[
 
             'popularMovies' => $popularMovies,
-            'popularShows' => $popularShows,
+            'nowPlayingMovies' => $nowPlayingMovies,
+            'topRated'=>$topRated,
+            'upcoming' =>$upcoming,
             'genres' => $genres,
 
         ]);
@@ -47,7 +58,7 @@ class MoviesController extends Controller
         ->json();
 
  
-        return view('show', compact('movie'));
+        return view('movie.show', compact('movie'));
 
     }
 }

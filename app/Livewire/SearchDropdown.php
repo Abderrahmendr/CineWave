@@ -15,15 +15,11 @@ class SearchDropdown extends Component
 
         if (strlen($this->search) >= 2) {
             $searchResults = Http::withToken(config('services.tmdb.token'))
-                ->get('https://api.themoviedb.org/3/search/multi?api_key=3e0a917baa2ad47e37244f4af42b4eb0', [
-                    'query' => $this->search,
-                    'include_adult' => false,
-                    'language' => 'en-US',
-                    'page' => 1,
-                ])->json()['results'];
+                ->get('https://api.themoviedb.org/3/search/multi?api_key=3e0a917baa2ad47e37244f4af42b4eb0'.$this->search)
+                ->json()['results'];
         }
 
-        dump($searchResults);
+        //dd($searchResults);
 
         return view('livewire.search-dropdown', [
             'searchResults' => collect($searchResults)->take(7),

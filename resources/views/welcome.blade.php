@@ -9,7 +9,7 @@
     <title>Movie-app</title>
 </head>
 <body>
-<h1 class="text-4xl text-blue-600">Hello world</h1>
-
+<h1 class="text-4xl text-blue-600"></h1>
+ 
 </body>
 </html>
