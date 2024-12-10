@@ -16,30 +16,29 @@ class TvController extends Controller
      */
         public function index()
 {
-    // Fetch popular TV shows from the API
+    $apiKey = env('TMDB_API_KEY');
+
     $popularTv = Http::withToken(config('services.tmdb.token'))
-        ->get('https://api.themoviedb.org/3/tv/popular?api_key=3e0a917baa2ad47e37244f4af42b4eb0')
+        ->get('https://api.themoviedb.org/3/tv/popular?api_key='.$apiKey )
         ->json()['results'];
 
         $airing  = Http::withToken(config('services.tmdb.token'))
-        ->get('https://api.themoviedb.org/3/tv/airing_today?api_key=3e0a917baa2ad47e37244f4af42b4eb0')
+        ->get('https://api.themoviedb.org/3/tv/airing_today?api_key='.$apiKey )
         ->json()['results'];
 
         $OnTheAir = Http::withToken(config('services.tmdb.token'))
-        ->get('https://api.themoviedb.org/3/tv/on_the_air?api_key=3e0a917baa2ad47e37244f4af42b4eb0')
+        ->get('https://api.themoviedb.org/3/tv/on_the_air?api_key='.$apiKey )
         ->json()['results'];
 
-    // Fetch top-rated TV shows from the API
-    $topRatedTv = Http::withToken(config('services.tmdb.token'))
-        ->get('https://api.themoviedb.org/3/tv/top_rated?api_key=3e0a917baa2ad47e37244f4af42b4eb0')
+     $topRatedTv = Http::withToken(config('services.tmdb.token'))
+        ->get('https://api.themoviedb.org/3/tv/top_rated?api_key='.$apiKey )
         ->json()['results'];
 
         $genres = Http::withToken(config('services.tmdb.token'))
-        ->get('https://api.themoviedb.org/3/genre/movie/list?api_key=3e0a917baa2ad47e37244f4af42b4eb0' )
+        ->get('https://api.themoviedb.org/3/genre/movie/list?api_key='.$apiKey  )
         ->json()['genres'];
 
-    // Pass both popularTv and topRatedTv to the view
-    return view('tv.index', [
+     return view('tv.index', [
         'popularTv' => $popularTv,
         'topRatedTv' => $topRatedTv,
         'airing '=> $airing,
@@ -51,8 +50,10 @@ class TvController extends Controller
  
 public function show($id)
 {
+    $apiKey = env('TMDB_API_KEY');
+
     $tvshow = Http::withToken(config('services.tmdb.token'))
-        ->get('https://api.themoviedb.org/3/tv/'.$id.'?api_key=3e0a917baa2ad47e37244f4af42b4eb0&append_to_response=credits,videos,images')
+        ->get('https://api.themoviedb.org/3/tv/'.$id.'?api_key='.$apiKey.'&append_to_response=credits,videos,images')
         ->json();
         
 
